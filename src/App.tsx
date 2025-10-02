@@ -1,9 +1,15 @@
-import { Nav } from './components';
+// Router //
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home } from './pages';
 
 function App() {
   return (
     <>
-      <Nav />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
     </>
   );
 }
