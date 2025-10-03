@@ -12,14 +12,25 @@ import {
   CardImage,
 } from './CtgStyled';
 import { ieltsExamData } from '../utils/MainData';
+import { useNavigate } from 'react-router-dom';
 
 const Ctg = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (item: (typeof ieltsExamData)[0]) => {
+    navigate('/initiate', {
+      state: {
+        selectedItem: item,
+      },
+    });
+  };
+
   return (
     <CtgBlock>
       <CtgContainer>
         {ieltsExamData.map((item) => {
           return (
-            <BoxCtg key={item.id}>
+            <BoxCtg key={item.id} onClick={() => handleNavigation(item)}>
               <BorderText>
                 <SpanText>{item.subType}</SpanText>
               </BorderText>

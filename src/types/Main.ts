@@ -8,4 +8,7 @@ export type IeltsExamItem = {
   currentScore: number;
   actionUrl: string;
   subType?: string;
+  initiation_begin: string;
+  important_note: string[];
 };
+

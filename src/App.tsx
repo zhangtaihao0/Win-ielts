@@ -1,6 +1,6 @@
 // Router //
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import { Home } from './pages';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home, Initiate } from './pages';
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/initiate" element={<Initiate />} />
         </Routes>
       </Router>
     </>

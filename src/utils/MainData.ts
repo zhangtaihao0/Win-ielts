@@ -15,6 +15,12 @@ export const ieltsExamData: IeltsExamItem[] = [
     currentScore: 0,
     actionUrl: 'https://example.com/practice-reading',
     subType: 'Academic',
+    initiation_begin: "Start your reading practice",
+    important_note: [
+      "This section has 3 questions only.",
+      "Each question carries 3 points, making a total of 9 points.",
+      "You will have 15 minutes for each question, so a total of 45 minutes."
+    ],
   },
   {
     id: 2,
@@ -24,6 +30,12 @@ export const ieltsExamData: IeltsExamItem[] = [
     currentScore: 0,
     actionUrl: 'https://example.com/improve-writing',
     subType: 'Academic',
+    initiation_begin: "Start your writing practice",
+    important_note: [
+      "This section has 3 questions only.",
+      "Each question carries 3 points, making a total of 9 points.",
+      "You will have 15 minutes for each question, so a total of 45 minutes."
+    ],
   },
   {
     id: 3,
@@ -33,6 +45,12 @@ export const ieltsExamData: IeltsExamItem[] = [
     currentScore: 0,
     actionUrl: 'https://example.com/start-listening',
     subType: 'Academic',
+    initiation_begin: "Start your listening practice",
+    important_note: [
+      "This section has 3 questions only.",
+      "Each question carries 3 points, making a total of 9 points.",
+      "You will have 15 minutes for each question, so a total of 45 minutes."
+    ],
   },
   {
     id: 4,
@@ -42,5 +60,11 @@ export const ieltsExamData: IeltsExamItem[] = [
     currentScore: 0,
     actionUrl: 'https://example.com/practice-speaking',
     subType: 'Academic',
+    initiation_begin: "Start your speaking practice",
+    important_note: [
+      "This section has 3 questions only.",
+      "Each question carries 3 points, making a total of 9 points.",
+      "You will have 15 minutes for each question, so a total of 45 minutes."
+    ],
   },
 ];
