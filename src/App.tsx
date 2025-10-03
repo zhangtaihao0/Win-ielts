@@ -1,5 +1,5 @@
 // Router //
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home, Initiate } from './pages';
 
 function App() {
