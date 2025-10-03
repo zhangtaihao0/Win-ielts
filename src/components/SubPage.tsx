@@ -1,3 +1,12 @@
+import {
+  SubBlock,
+  SubContainer,
+  HeaderText,
+  NotesList,
+  NoteItem,
+  BtnContainer,
+  BtnText,
+} from './SubPageStyled';
 import { useLocation } from 'react-router-dom';
 
 const SubPage = () => {
@@ -5,19 +14,23 @@ const SubPage = () => {
   const selectedItem = location.state?.selectedItem;
 
   return (
-    <div>
-      {selectedItem && (
-        <div>
-          <h2>Selected Exam:</h2>
-          <p>Type: {selectedItem.type}</p>
-          <p>Sub Type: {selectedItem.subType}</p>
-          <p>
-            Score: {selectedItem.currentScore} / {selectedItem.topScore}
-          </p>
-          <img src={selectedItem.img} alt={selectedItem.type} />
-        </div>
-      )}
-    </div>
+    <SubBlock>
+      <SubContainer>
+        <HeaderText>
+          🚀 {selectedItem ? selectedItem.initiation_begin : 'No Item Selected'}
+        </HeaderText>
+        {selectedItem?.important_note && (
+          <NotesList>
+            {selectedItem.important_note.map((note: string, index: number) => (
+              <NoteItem key={index}>{note}</NoteItem>
+            ))}
+          </NotesList>
+        )}
+        <BtnContainer>
+          <BtnText>Start Test</BtnText>
+        </BtnContainer>
+      </SubContainer>
+    </SubBlock>
   );
 };
 
