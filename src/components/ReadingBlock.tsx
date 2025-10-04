@@ -8,10 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 const ReadingBlock = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { test } = location.state as { test: GeneratedTest; selectedItem: any };
+  const { test } = location.state as { test: GeneratedTest; selectedItem: unknown };
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [answers] = useState<Answer[]>([]);
   const [sessionId] = useState(() => uuidv4());
 
   const handleTimeUp = () => {
@@ -20,7 +20,7 @@ const ReadingBlock = () => {
   };
 
   const { timeRemaining, startTimer, formatTime } = useTestTimer({
-    timeLimit: test.timeLimit,
+    timeLimit: test.timeLimit ?? 60, 
     onTimeUp: handleTimeUp,
     autoStart: true,
   });
@@ -31,7 +31,7 @@ const ReadingBlock = () => {
       examType: test.examType,
       difficulty: test.difficulty,
       startTime: Date.now(),
-      timeLimit: test.timeLimit,
+      timeLimit: test.timeLimit ?? 60,
       answers: [],
       status: 'in-progress',
     };
@@ -46,9 +46,9 @@ const ReadingBlock = () => {
       testId: sessionId,
       examType: test.examType,
       difficulty: test.difficulty,
-      startTime: Date.now() - (test.timeLimit * 60 * 1000 - timeRemaining * 1000),
+      startTime: Date.now() - (((test.timeLimit ?? 60) * 60 * 1000) - timeRemaining * 1000),
       endTime: Date.now(),
-      timeLimit: test.timeLimit,
+      timeLimit: test.timeLimit ?? 60,
       answers,
       status,
     };
