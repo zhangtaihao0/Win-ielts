@@ -1,6 +1,6 @@
 // Router //
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
-import { Home, Initiate } from './pages';
+import { Home, Initiate, ReadingTest } from './pages';
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/initiate" element={<Initiate />} />
+          <Route path="/reading-test" element={<ReadingTest />} />
         </Routes>
       </Router>
     </>

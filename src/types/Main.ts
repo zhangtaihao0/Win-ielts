@@ -12,20 +12,49 @@ export type IeltsExamItem = {
   important_note: string[];
 };
 
-export interface Question {
+export interface BaseQuestion {
   id: string;
-  text: string;
   type: string;
-  maxWords?: number;
 }
+
+export interface ReadingQuestion extends BaseQuestion {
+  passage: string;
+  question: string;
+  type: 'multiple-choice' | 'true-false-notgiven' | 'short-answer';
+  options?: string[];
+  statement?: string;
+}
+
+export interface WritingQuestion extends BaseQuestion {
+  taskType: string;
+  prompt: string;
+  type: 'Writing';
+  minWords: number;
+  maxWords: number;
+}
+
+export interface ListeningQuestion extends BaseQuestion {
+  transcript: string;
+  question: string;
+  type: 'multiple-choice' | 'fill-in-blank' | 'true-false';
+  options?: string[];
+}
+
+export interface SpeakingQuestion extends BaseQuestion {
+  text: string;
+  type: 'Speaking';
+}
+
+export type Question = ReadingQuestion | WritingQuestion | ListeningQuestion | SpeakingQuestion;
 
 export interface GeneratedTest {
   id: string;
-  examType: string;
+  isValid: boolean;
+  examType: 'Reading' | 'Writing' | 'Listening' | 'Speaking';
   difficulty: string;
   questions: Question[];
-  timestamp: number;
-  timeLimit: number; 
+  timestamp?: number;
+  timeLimit?: number;
 }
 
 export interface Answer {
@@ -40,6 +69,7 @@ export interface TestSession {
   difficulty: string;
   startTime: number;
   endTime?: number;
+  timeLimit: number;
   answers: Answer[];
   status: 'in-progress' | 'completed' | 'timed-out';
 }

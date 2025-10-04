@@ -96,6 +96,7 @@ export const BtnContainer = styled.a`
   cursor: pointer;
   @media screen and (max-width: 960px) {
     width: 100%;
+    margin-top: 12%;
     margin-bottom: 5%;
   }
 `;
@@ -104,4 +105,98 @@ export const BtnText = styled.span`
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
+`;
+
+export const InfoBoxTests = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
+export const DisplayChacheWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+  }
+`;
+
+export const TypeInfo = styled.div`
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #e3f2fd;
+  border: 2px solid #2196f3;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1565c0;
+  text-align: center;
+`;
+
+export const GenratedInfo = styled.div`
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #e8f5e9;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2e7d32;
+  text-align: center;
+`;
+
+export const DeleteWrapper = styled.div`
+  display: flex;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+export const DeleteTestsContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const CachedButtonPrimary = styled.button`
+  padding: 5px 16px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s;
+  @media screen and (max-width: 960px) {
+    padding: 12px 16px;
+  }
+`;
+
+export const CachedButtonSecondary = styled.button`
+  padding: 5px 16px;
+  background-color: #eb5757;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s;
+  @media screen and (max-width: 960px) {
+    padding: 12px 16px;
+  }
+`;
+
+export const ErrorWrapper = styled.div`
+  margin-top: 15px;
+  padding: 10px 15px;
+  color: #c62828;
+  font-size: 14px;
 `;
