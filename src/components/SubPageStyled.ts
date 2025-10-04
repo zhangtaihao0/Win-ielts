@@ -29,7 +29,6 @@ export const HeaderText = styled.span`
   font-size: 32px;
   font-weight: 900;
   width: 100%;
-  margin-bottom: 20px;
   @media screen and (max-width: 960px) {
     font-size: 22px;
     font-weight: 900;
@@ -150,48 +149,6 @@ export const GenratedInfo = styled.div`
   font-weight: 500;
   color: #2e7d32;
   text-align: center;
-`;
-
-export const DeleteWrapper = styled.div`
-  display: flex;
-  margin-top: 20px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  box-sizing: border-box;
-  @media screen and (max-width: 960px) {
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-export const DeleteTestsContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-export const CachedButtonPrimary = styled.button`
-  padding: 5px 16px;
-  background-color: #ff9800;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: all 0.2s;
-  @media screen and (max-width: 960px) {
-    padding: 12px 16px;
-  }
-`;
-
-export const CachedButtonSecondary = styled.button`
-  padding: 5px 16px;
-  background-color: #eb5757;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: all 0.2s;
-  @media screen and (max-width: 960px) {
-    padding: 12px 16px;
-  }
 `;
 
 export const ErrorWrapper = styled.div`
