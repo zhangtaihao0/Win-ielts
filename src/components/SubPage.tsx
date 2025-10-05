@@ -12,11 +12,15 @@ import {
   BtnContainer,
   BtnText,
   ErrorWrapper,
+  LoadingBlock,
+  LoadingGif,
 } from './SubPageStyled';
 import { ieltsExamData } from '../utils/MainData';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGenerateTest } from '../hooks/useIelts';
 import { useDifficulty } from '../hooks/useDifficulty';
+// Loader //
+import Loader from '/img/loading.gif';
 
 const SubPage = () => {
   const location = useLocation();
@@ -26,6 +30,7 @@ const SubPage = () => {
   const { test, loading, error, generateTest, timeLimit, hasCachedTest } = useGenerateTest({
     examType: selectedItem?.type,
   });
+
   // Navigate to test page when test is ready //
   useEffect(() => {
     if (test && selectedItem?.actionUrl && selectedItem?.type) {
@@ -50,6 +55,14 @@ const SubPage = () => {
     if (!selectedItem) return;
     await generateTest();
   };
+
+  if (loading) {
+    return (
+      <LoadingBlock>
+        <LoadingGif src={Loader} alt="Loading..." />
+      </LoadingBlock>
+    );
+  }
 
   return (
     <SubBlock>
@@ -83,17 +96,8 @@ const SubPage = () => {
         )}
         {/* Action BTN */}
         {selectedItem && selectedItem.id !== ieltsExamData.length && (
-          <BtnContainer
-            onClick={loading ? undefined : handleStartTest}
-            style={{
-              opacity: loading ? 0.6 : 1,
-              pointerEvents: loading ? 'none' : 'auto',
-              cursor: loading ? 'not-allowed' : 'pointer',
-            }}
-          >
-            <BtnText>
-              {loading ? 'Generating Test...' : hasCachedTest ? 'Load Test' : 'Generate New Test'}
-            </BtnText>
+          <BtnContainer onClick={handleStartTest}>
+            <BtnText>{hasCachedTest ? 'Load Test' : 'Generate New Test'}</BtnText>
           </BtnContainer>
         )}
         {/* Error handler */}

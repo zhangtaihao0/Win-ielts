@@ -157,3 +157,15 @@ export const ErrorWrapper = styled.div`
   color: #c62828;
   font-size: 14px;
 `;
+
+export const LoadingBlock = styled.div`
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingGif = styled.img`
+  width: 50px;
+`;
