@@ -102,3 +102,13 @@ export interface AIResponse {
   model: string;
   timestamp: string;
 }
+
+export interface QuestionRendererProps {
+  question: Question;
+  answer: string;
+  onAnswerChange: (answer: string) => void;
+  onPrevious: () => void;
+  onNext: () => void;
+  showPrevious: boolean;
+  isLastQuestion: boolean;
+}
