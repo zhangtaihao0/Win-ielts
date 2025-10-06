@@ -1,6 +1,6 @@
 import { Nav, AssessmentBlock } from '../../components';
 
-const ReadingTest = () => {
+const WritingTest = () => {
   return (
     <>
       <Nav />
@@ -9,4 +9,4 @@ const ReadingTest = () => {
   );
 };
 
-export default ReadingTest;
+export default WritingTest;

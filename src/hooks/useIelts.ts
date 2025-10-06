@@ -1,23 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { AIResponse, GeneratedTest } from '../types/Main';
+import type { AIResponse, GeneratedTest, UseGenerateTestProps, UseGenerateTestReturn } from '../types/Main';
 import { AI_PROMPTS } from '../constants/prompts';
 import { saveTest, getTest, testExists } from '../utils/db';
 import { v4 as uuidv4 } from 'uuid';
 import { useDifficulty } from './useDifficulty';
 
-interface UseGenerateTestProps {
-  examType: 'Reading' | 'Writing' | 'Listening' | 'Speaking';
-}
-
-interface UseGenerateTestReturn {
-  test: GeneratedTest | null;
-  loading: boolean;
-  error: string | null;
-  generateTest: () => Promise<GeneratedTest | null>;
-  timeLimit: number;
-  hasCachedTest: boolean;
-  checkCache: () => Promise<boolean>;
-}
 
 export const useGenerateTest = ({ examType }: UseGenerateTestProps): UseGenerateTestReturn => {
   const { difficulty } = useDifficulty('Easy');

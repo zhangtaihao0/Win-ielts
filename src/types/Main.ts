@@ -112,3 +112,47 @@ export interface QuestionRendererProps {
   showPrevious: boolean;
   isLastQuestion: boolean;
 }
+
+export interface ParsedOption {
+  label: string;
+  text: string;
+}
+
+export interface WordLimits {
+  min: number;
+  max: number;
+}
+
+export interface UseAssessmentProps {
+  test: GeneratedTest;
+  onSubmit?: (sessionId: string, status: 'completed' | 'timed-out') => void;
+}
+
+export interface UseGenerateTestProps {
+  examType: 'Reading' | 'Writing' | 'Listening' | 'Speaking';
+}
+
+export interface UseGenerateTestReturn {
+  test: GeneratedTest | null;
+  loading: boolean;
+  error: string | null;
+  generateTest: () => Promise<GeneratedTest | null>;
+  timeLimit: number;
+  hasCachedTest: boolean;
+  checkCache: () => Promise<boolean>;
+}
+
+export interface UseTestTimerProps {
+  timeLimit: number;
+  onTimeUp: () => void;
+  autoStart?: boolean;
+}
+
+export interface UseTestTimerReturn {
+  timeRemaining: number;
+  isRunning: boolean;
+  startTimer: () => void;
+  pauseTimer: () => void;
+  resetTimer: () => void;
+  formatTime: (seconds: number) => string;
+}

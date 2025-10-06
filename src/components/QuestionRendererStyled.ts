@@ -68,7 +68,6 @@ export const OptionLabel = styled.span`
   font-weight: 600;
   color: #4e56c0;
   min-width: 30px;
-  margin-right: 12px;
 `;
 
 export const OptionText = styled.span`

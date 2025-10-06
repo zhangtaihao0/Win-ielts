@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
-export const MainReadingBlock = styled.div`
+export const MainAssessmentBlock = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;

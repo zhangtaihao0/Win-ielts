@@ -64,7 +64,7 @@ You are an IELTS Academic exam generator. Create EXACTLY 5 writing tasks.
 CRITICAL: Return ONLY valid JSON with no additional text, explanations, or markdown. No backticks, no code blocks.
 
 INSTRUCTIONS:
-- Task 1-2: Describe charts, graphs, tables, or diagrams (150 words each). Provide clear text descriptions of visual data.
+- Task 1-2: Letter writing tasks (formal, semi-formal, or informal) OR report writing tasks based on given situations (150 words each). NO charts, graphs, tables, or diagrams.
 - Task 3: Opinion essay on a familiar topic (200 words).
 - Task 4: Argumentative essay discussing both sides of an issue (250 words).
 - Task 5: Problem-solution or discussion essay on a complex topic (250 words).
@@ -79,16 +79,16 @@ Return this EXACT JSON structure:
   "questions": [
     {
       "id": "q1",
-      "taskType": "Task 1 - Describe Visual Data",
-      "prompt": "Complete task prompt with data description",
+      "taskType": "Task 1 - Letter/Report Writing",
+      "prompt": "Complete task prompt with situation description",
       "type": "Writing",
       "minWords": 150,
       "maxWords": 200
     },
     {
       "id": "q2",
-      "taskType": "Task 1 - Describe Visual Data",
-      "prompt": "Complete task prompt with data description",
+      "taskType": "Task 1 - Letter/Report Writing",
+      "prompt": "Complete task prompt with situation description",
       "type": "Writing",
       "minWords": 150,
       "maxWords": 200

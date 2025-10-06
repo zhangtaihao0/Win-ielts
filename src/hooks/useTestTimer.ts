@@ -1,26 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
-interface UseTestTimerProps {
-  timeLimit: number;
-  onTimeUp: () => void;
-  autoStart?: boolean;
-}
-
-interface UseTestTimerReturn {
-  timeRemaining: number;
-  isRunning: boolean;
-  startTimer: () => void;
-  pauseTimer: () => void;
-  resetTimer: () => void;
-  formatTime: (seconds: number) => string;
-}
+import type { UseTestTimerProps, UseTestTimerReturn } from '../types/Main';
 
 export const useTestTimer = ({
   timeLimit,
   onTimeUp,
   autoStart = false,
 }: UseTestTimerProps): UseTestTimerReturn => {
-  const [timeRemaining, setTimeRemaining] = useState(timeLimit * 60); 
+  const [timeRemaining, setTimeRemaining] = useState(timeLimit * 60);
   const [isRunning, setIsRunning] = useState(autoStart);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimer = useCallback(() => {
