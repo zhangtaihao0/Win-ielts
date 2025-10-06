@@ -74,15 +74,13 @@ const SubPage = () => {
           <DisplayChacheWrapper>
             {selectedItem && difficulty && selectedItem.id !== ieltsExamData.length && (
               <TypeInfo>
-                📋 {selectedItem.type} • {difficulty} • {timeLimit} minutes
+                {selectedItem.type} • {difficulty} • {timeLimit} minutes
               </TypeInfo>
             )}
             {/* Cache Status Indicator */}
             {selectedItem && selectedItem.id !== ieltsExamData.length && (
               <GenratedInfo>
-                {hasCachedTest
-                  ? '✅ Test available - will load instantly'
-                  : '⚡ Test will be generated'}
+                {hasCachedTest ? 'Test available - will load instantly' : 'Test will be generated'}
               </GenratedInfo>
             )}
           </DisplayChacheWrapper>

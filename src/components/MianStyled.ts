@@ -59,6 +59,7 @@ export const DifficultyButton = styled.button<{ $isActive: boolean; $color: stri
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
   &:hover {
     background-color: ${(props) => props.$color};
     color: #ffffff;

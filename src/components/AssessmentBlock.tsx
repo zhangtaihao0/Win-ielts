@@ -26,20 +26,22 @@ const AssessmentBlock = () => {
     handleNext,
     totalQuestions,
   } = useAssessment({ test });
+  // Filter listing //
+  const isListeningType = test.examType === 'Listening';
 
   return (
     <MainAssessmentBlock>
       <SubContainer>
         <StaticBox>
+          <TypeInfo>
+            Question {currentQuestionIndex + 1} of {totalQuestions} | Exam Type: {test.examType} |
+            Difficulty: {test.difficulty}
+          </TypeInfo>
           <TimeBlock>
             <TimeIndicator $isWarning={timeRemaining < 300}>
               <TimeText>{formatTime(timeRemaining)}</TimeText>
             </TimeIndicator>
           </TimeBlock>
-          <TypeInfo>
-            Question {currentQuestionIndex + 1} of {totalQuestions} | Exam Type: {test.examType} |
-            Difficulty: {test.difficulty}
-          </TypeInfo>
         </StaticBox>
         <QuestionRenderer
           question={currentQuestion}
@@ -49,6 +51,7 @@ const AssessmentBlock = () => {
           onNext={handleNext}
           showPrevious={currentQuestionIndex > 0}
           isLastQuestion={currentQuestionIndex === totalQuestions - 1}
+          isListeningType={isListeningType}
         />
       </SubContainer>
     </MainAssessmentBlock>

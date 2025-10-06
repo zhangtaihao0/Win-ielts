@@ -30,7 +30,7 @@ export const StaticBox = styled.div`
   justify-content: space-between;
   align-items: center;
   @media screen and (max-width: 960px) {
-    flex-direction: column;
+    justify-content: flex-end;
   }
 `;
 
@@ -54,7 +54,6 @@ const pulseWarning = keyframes`
 
 export const TimeBlock = styled.div`
   display: flex;
-  width: 100%;
   @media screen and (max-width: 960px) {
     justify-content: flex-end;
   }
@@ -103,7 +102,6 @@ export const TypeInfo = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #1565c0;
-  width: 80%;
   line-height: 1.5;
   @media screen and (max-width: 960px) {
     display: none;

@@ -14,7 +14,10 @@ import {
   BTNWrapper,
   BtnContainer,
   BtnText,
+  PlayButton,
+  PlayIcon,
 } from './QuestionRendererStyled';
+import Play from '/img/play.png';
 
 const QuestionRenderer = ({
   question,
@@ -24,13 +27,20 @@ const QuestionRenderer = ({
   onNext,
   showPrevious,
   isLastQuestion,
+  isListeningType,
 }: QuestionRendererProps) => {
   const { questionText, passage, isMultipleChoice, options, countDisplayText } =
     useQuestionRenderer(question, answer);
 
   return (
     <QuestionContainer>
-      {passage && <Passage>{passage}</Passage>}
+      {isListeningType ? (
+        <PlayButton>
+          <PlayIcon src={Play} alt="Play" />
+        </PlayButton>
+      ) : (
+        passage && <Passage>{passage}</Passage>
+      )}
       <QuestionText>{questionText}</QuestionText>
       {isMultipleChoice ? (
         <OptionsContainer>

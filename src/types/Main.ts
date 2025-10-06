@@ -111,6 +111,7 @@ export interface QuestionRendererProps {
   onNext: () => void;
   showPrevious: boolean;
   isLastQuestion: boolean;
+  isListeningType: boolean;
 }
 
 export interface ParsedOption {

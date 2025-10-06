@@ -136,7 +136,6 @@ export const TypeInfo = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #1565c0;
-  text-align: center;
 `;
 
 export const GenratedInfo = styled.div`
@@ -148,7 +147,6 @@ export const GenratedInfo = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #2e7d32;
-  text-align: center;
 `;
 
 export const ErrorWrapper = styled.div`

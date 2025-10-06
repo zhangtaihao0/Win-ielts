@@ -143,3 +143,57 @@ export const BtnText = styled.span`
   font-size: 18px;
   font-weight: 500;
 `;
+
+export const PlayButton = styled.button`
+  display: flex;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  border: none;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.45);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+  &:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 4px;
+  }
+`;
+
+export const PlayIcon = styled.img`
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+  ${PlayButton}:hover & {
+    transform: scale(1.1);
+  }
+`;
