@@ -11,6 +11,7 @@ INSTRUCTIONS:
 - Question types: multiple choice, true/false/not given, matching headings, or short answer.
 - Difficulty: ${difficulty} (Easy = simple passages and vocabulary, Medium = academic style with moderate complexity, Hard = complex academic topics with sophisticated vocabulary).
 - Topics should be diverse: science, history, technology, environment, society, etc.
+- IMPORTANT: For multiple-choice questions, the "options" array MUST contain complete answer choices in the format: ["A. First complete answer text", "B. Second complete answer text", "C. Third complete answer text", "D. Fourth complete answer text"]. Do NOT just put ["A", "B", "C", "D"].
 
 Return this EXACT JSON structure:
 {
@@ -23,14 +24,14 @@ Return this EXACT JSON structure:
       "passage": "Complete passage text here",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q2",
       "passage": "Complete passage text here",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q3",
@@ -44,7 +45,7 @@ Return this EXACT JSON structure:
       "passage": "Longer academic passage text here",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q5",
@@ -140,6 +141,7 @@ QUESTION STRUCTURE:
 - Question 4: Longer monologue (presentation, radio broadcast).
 - Question 5: Complex discussion or interview.
 - Difficulty: ${difficulty} (Easy = clear speech and simple topics, Medium = academic lectures and discussions, Hard = complex ideas with various accents).
+- IMPORTANT: For multiple-choice questions, the "options" array MUST contain complete answer choices in the format: ["A. Complete first answer", "B. Complete second answer", "C. Complete third answer", "D. Complete fourth answer"]. Do NOT just put ["A", "B", "C", "D"].
 
 Return this EXACT JSON structure:
 {
@@ -152,7 +154,7 @@ Return this EXACT JSON structure:
       "transcript": "Spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q2",
@@ -165,7 +167,7 @@ Return this EXACT JSON structure:
       "transcript": "Spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q4",
@@ -178,7 +180,7 @@ Return this EXACT JSON structure:
       "transcript": "Longer spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
-      "options": ["A", "B", "C", "D"]
+      "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     }
   ]
 }

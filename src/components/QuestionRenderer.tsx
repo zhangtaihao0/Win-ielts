@@ -38,16 +38,34 @@ const QuestionRenderer = ({
     return undefined;
   };
 
-  // Determine if the question is multiple-choice //
+  // Is multiple-choice //
   const isMultipleChoice = question.type === 'multiple-choice';
   const parseOptions = () => {
     if (!('options' in question) || !question.options) return [];
+    const firstOption = question.options[0];
+    if (firstOption && firstOption.includes('.')) {
+      return question.options.map((option) => {
+        const match = option.match(/^([A-D])\.\s*(.+)$/);
+        if (match) {
+          return {
+            label: match[1],
+            text: match[2],
+          };
+        }
+        return {
+          label: option.charAt(0),
+          text: option,
+        };
+      });
+    }
     const parsed = [];
     for (let i = 0; i < question.options.length; i += 2) {
-      parsed.push({
-        label: question.options[i],
-        text: question.options[i + 1],
-      });
+      if (i + 1 < question.options.length) {
+        parsed.push({
+          label: question.options[i].replace('.', '').trim(),
+          text: question.options[i + 1],
+        });
+      }
     }
     return parsed;
   };
@@ -78,9 +96,9 @@ const QuestionRenderer = ({
       <QuestionText>{questionText}</QuestionText>
       {isMultipleChoice ? (
         <OptionsContainer>
-          {options.map((option) => (
+          {options.map((option, index) => (
             <OptionButton
-              key={option.label}
+              key={`${option.label}-${index}`}
               $isSelected={answer === option.label}
               onClick={() => onAnswerChange(option.label)}
             >
