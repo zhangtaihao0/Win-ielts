@@ -128,6 +128,10 @@ You are an IELTS Academic exam generator. Create EXACTLY 5 listening comprehensi
 CRITICAL: Return ONLY valid JSON with no additional text, explanations, or markdown. No backticks, no code blocks.
 
 INSTRUCTIONS FOR TEXT-TO-SPEECH OPTIMIZATION:
+- Write transcripts as a single continuous monologue spoken by one person.
+- Do NOT include any dialogues, conversations, or exchanges between multiple speakers.
+- Avoid phrases like "excuse me", "thank you", "no problem", or anything that implies multiple people.
+- Use natural spoken language WITHOUT punctuation marks (no periods, commas, question marks, or exclamation points).
 - Write transcripts in natural spoken language WITHOUT any punctuation marks (no periods, commas, question marks, exclamation points).
 - Use only plain text with spaces between words.
 - Write numbers as words (use "twenty three" not "23").
@@ -136,10 +140,10 @@ INSTRUCTIONS FOR TEXT-TO-SPEECH OPTIMIZATION:
 - Transcript length: 80-120 words for questions 1-3, 150-180 words for questions 4-5.
 
 QUESTION STRUCTURE:
-- Questions 1-2: Everyday conversations (shopping, directions, appointments).
-- Question 3: Academic context (lecture excerpt, seminar discussion).
-- Question 4: Longer monologue (presentation, radio broadcast).
-- Question 5: Complex discussion or interview.
+- Question 1: Short everyday monologues (e.g., describing an activity, explaining a routine, or giving simple information such as directions or appointments).
+- Question 2: Academic-style short talk (e.g., explaining a basic concept or summarizing a classroom topic).
+- Question 3: Longer academic or informative monologue (e.g., presentation, radio broadcast, or report).
+- Question 4: Extended academic or professional monologue involving more complex ideas or details.
 - Difficulty: ${difficulty} (Easy = clear speech and simple topics, Medium = academic lectures and discussions, Hard = complex ideas with various accents).
 - IMPORTANT: For multiple-choice questions, the "options" array MUST contain complete answer choices in the format: ["A. Complete first answer", "B. Complete second answer", "C. Complete third answer", "D. Complete fourth answer"]. Do NOT just put ["A", "B", "C", "D"].
 
@@ -151,33 +155,33 @@ Return this EXACT JSON structure:
   "questions": [
     {
       "id": "q1",
-      "transcript": "Spoken text without any punctuation marks written naturally for text to speech conversion",
+      "transcript": "Single speaker spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
       "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q2",
-      "transcript": "Spoken text without any punctuation marks written naturally for text to speech conversion",
+      "transcript": "Single speaker spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "fill-in-blank"
     },
     {
       "id": "q3",
-      "transcript": "Spoken text without any punctuation marks written naturally for text to speech conversion",
+      "transcript": "Single speaker spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
       "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]
     },
     {
       "id": "q4",
-      "transcript": "Longer spoken text without any punctuation marks written naturally for text to speech conversion",
+      "transcript": "Longer single speaker spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "true-false"
     },
     {
       "id": "q5",
-      "transcript": "Longer spoken text without any punctuation marks written naturally for text to speech conversion",
+      "transcript": "Longer single speaker spoken text without any punctuation marks written naturally for text to speech conversion",
       "question": "Question text",
       "type": "multiple-choice",
       "options": ["A. Complete first answer option", "B. Complete second answer option", "C. Complete third answer option", "D. Complete fourth answer option"]

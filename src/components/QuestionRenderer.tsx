@@ -1,3 +1,4 @@
+import { useEffect, useRef, useCallback } from 'react';
 import { useQuestionRenderer } from '../hooks/useQuestionRenderer';
 import type { QuestionRendererProps } from '../types/Main';
 import {
@@ -31,11 +32,52 @@ const QuestionRenderer = ({
 }: QuestionRendererProps) => {
   const { questionText, passage, isMultipleChoice, options, countDisplayText } =
     useQuestionRenderer(question, answer);
+  const synthRef = useRef(window.speechSynthesis);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // Function to start text-to-speech for passage //
+  const playSpeech = useCallback(() => {
+    if (!passage) return;
+    const synth = synthRef.current;
+    if (synth.speaking) return;
+    const utterance = new SpeechSynthesisUtterance(passage);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.7;
+    utterance.pitch = 1;
+    const voices = synth.getVoices();
+    const femaleVoice = voices.find(
+      (v) =>
+        v.lang.startsWith('en') &&
+        /female|woman|Google US English|Samantha|Microsoft (Zira|Aria)/i.test(v.name),
+    );
+    utterance.voice = femaleVoice || voices.find((v) => v.lang.startsWith('en')) || null;
+    utteranceRef.current = utterance;
+    synth.speak(utterance);
+  }, [passage]);
+
+  // Load voices on mount //
+  useEffect(() => {
+    const synth = synthRef.current;
+    const loadVoices = () => synth.getVoices();
+    loadVoices();
+    if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
+    return () => {
+      if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = null;
+    };
+  }, []);
+
+  // Cleanup on unmount or when question changes //
+  useEffect(() => {
+    const synth = synthRef.current;
+    return () => {
+      if (synth.speaking) synth.cancel();
+    };
+  }, [question]);
 
   return (
     <QuestionContainer>
       {isListeningType ? (
-        <PlayButton>
+        <PlayButton onClick={playSpeech}>
           <PlayIcon src={Play} alt="Play" />
         </PlayButton>
       ) : (
