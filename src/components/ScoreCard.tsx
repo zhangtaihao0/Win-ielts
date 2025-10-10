@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import {
   ScoreBlock,
   ScoreContainer,
@@ -11,17 +12,33 @@ import {
   BtnText,
 } from './ScoreCardStyled';
 import Trophy from '/img/trophy.png';
-import { clearAllData } from '../utils/db';
+import { clearRecentTestData, saveHighScore } from '../utils/db';
 
 const ScoreCard = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, examType } = location.state as { score: number; examType: string };
+  const { score, examType, difficulty } = location.state as {
+    score: number;
+    examType: string;
+    difficulty: string;
+  };
 
-  // Handle re-try //
+  useEffect(() => {
+    const checkAndSaveScore = async () => {
+      try {
+        await saveHighScore(examType, score);
+      } catch (error) {
+        console.error('Error saving score:', error);
+      }
+    };
+
+    checkAndSaveScore();
+  }, [score, examType]);
+
+  // Re-try //
   const handleReattempt = async () => {
     try {
-      await clearAllData();
+      await clearRecentTestData(examType, difficulty);
       navigate('/');
     } catch (error) {
       console.error('Error clearing data:', error);

@@ -7,10 +7,7 @@ export const useEvaluation = (): UseEvaluationReturn => {
   const [error, setError] = useState<string | null>(null);
   // Test evaluate //
   const evaluateTest = useCallback(
-    async (
-      test: GeneratedTest,
-      answers: Answer[]
-    ): Promise<number | null> => {
+    async (test: GeneratedTest, answers: Answer[]): Promise<number | null> => {
       setEvaluating(true);
       setError(null);
       try {
@@ -18,7 +15,7 @@ export const useEvaluation = (): UseEvaluationReturn => {
           test.examType,
           test.difficulty,
           test.questions,
-          answers
+          answers,
         );
         const res = await fetch('/api/ai-request', {
           method: 'POST',
@@ -46,7 +43,7 @@ export const useEvaluation = (): UseEvaluationReturn => {
         setEvaluating(false);
       }
     },
-    []
+    [],
   );
 
   return {

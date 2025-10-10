@@ -164,3 +164,9 @@ export interface UseEvaluationReturn {
   error: string | null;
   evaluateTest: (test: GeneratedTest, answers: Answer[]) => Promise<number | null>;
 }
+
+export interface HighScore {
+  examType: string;
+  score: number;
+  date: string;
+}

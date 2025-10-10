@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   CtgBlock,
   CtgContainer,
@@ -13,9 +14,25 @@ import {
 } from './CtgStyled';
 import { ieltsExamData } from '../utils/MainData';
 import { useNavigate } from 'react-router-dom';
+import { getHighScore } from '../utils/db';
 
 const Ctg = () => {
   const navigate = useNavigate();
+  const [highScores, setHighScores] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const fetchHighScores = async () => {
+      const scores: Record<string, number> = {};
+      for (const item of ieltsExamData) {
+        const highScore = await getHighScore(item.type);
+        if (highScore) {
+          scores[item.id] = highScore.score;
+        }
+      }
+      setHighScores(scores);
+    };
+    fetchHighScores();
+  }, []);
 
   const handleNavigation = (item: (typeof ieltsExamData)[0]) => {
     navigate('/initiate', {
@@ -29,6 +46,7 @@ const Ctg = () => {
     <CtgBlock>
       <CtgContainer>
         {ieltsExamData.map((item) => {
+          const displayScore = highScores[item.id] || 0;
           return (
             <BoxCtg key={item.id} onClick={() => handleNavigation(item)}>
               <BorderText>
@@ -37,7 +55,7 @@ const Ctg = () => {
               <MainContainer>
                 <HeaderText>{item.type}</HeaderText>
                 <ScoreData>
-                  {item.currentScore} / <ScoreBlankData>{item.topScore}</ScoreBlankData>
+                  {displayScore.toFixed(1)} / <ScoreBlankData>{item.topScore}</ScoreBlankData>
                 </ScoreData>
               </MainContainer>
               <IconContainer>

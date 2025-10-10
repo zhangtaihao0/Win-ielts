@@ -265,6 +265,10 @@ EXAM DETAILS:
 SCORING GUIDELINES FOR ${examType.toUpperCase()}:
 ${getScoringGuidelines(examType)}
 
+STRICT EVALUATION CRITERIA FOR ALL TEST TYPES:
+
+${getStrictCriteria(examType)}
+
 QUESTIONS AND ANSWERS:
 ${JSON.stringify(questionAnswerPairs, null, 2)}
 
@@ -285,16 +289,22 @@ Band 7: Good understanding, few errors
 Band 6: Competent understanding, some errors
 Band 5: Modest understanding, several errors
 Band 4: Limited understanding, many errors
-Band 0-3: Little to no understanding`;
+Band 3: Very limited understanding, most answers wrong
+Band 2: Extremely limited, almost all answers wrong or irrelevant
+Band 1: No understanding, random answers or copied words
+Band 0: No attempt or completely blank`;
 
     case 'Writing':
-      return `Band 9: Excellent writing with sophisticated vocabulary and grammar
-Band 8: Very good writing, minor errors
-Band 7: Good writing, generally well-organized
-Band 6: Adequate writing, some organization issues
-Band 5: Limited writing skills
-Band 4: Basic writing, many errors
-Band 0-3: Very limited writing ability`;
+      return `Band 9: Excellent writing with sophisticated vocabulary, complex grammar, fully addresses task, 0 errors
+Band 8: Very good writing, minor errors, clear organization, fully addresses task
+Band 7: Good writing, generally well-organized, addresses task with some development
+Band 6: Adequate writing, addresses task but with limitations, some organization issues
+Band 5: Limited writing skills, partially addresses task, frequent errors
+Band 4: Basic writing, many errors, minimal task achievement, very limited vocabulary
+Band 3: Extremely limited writing, barely addresses task, severe errors throughout
+Band 2: Hardly any valid communication, may copy from prompt, extremely limited
+Band 1: No communication possible, random words/characters
+Band 0: No attempt or completely blank`;
 
     case 'Listening':
       return `Band 9: Perfect understanding, all correct
@@ -303,19 +313,168 @@ Band 7: Good understanding, few errors
 Band 6: Adequate understanding, some errors
 Band 5: Modest understanding, several errors
 Band 4: Limited understanding, many errors
-Band 0-3: Poor understanding`;
+Band 3: Very limited understanding, most answers wrong
+Band 2: Extremely limited, almost all wrong or irrelevant
+Band 1: No understanding, random answers
+Band 0: No attempt or completely blank`;
 
     case 'Speaking':
-      return `Band 9: Fully operational command of language
-Band 8: Fully operational with occasional inaccuracies
-Band 7: Good operational command
-Band 6: Generally effective command
+      return `Band 9: Fully operational command of language, fluent and precise
+Band 8: Fully operational with occasional inaccuracies, fluent
+Band 7: Good operational command, some fluency issues
+Band 6: Generally effective command, noticeable limitations
 Band 5: Partial command with frequent problems
-Band 4: Very limited command
-Band 0-3: Essentially no ability`;
+Band 4: Very limited command, basic communication only
+Band 3: Extremely limited, struggles to convey basic meaning
+Band 2: Hardly any communication, isolated words only
+Band 1: No communication possible, essentially silent
+Band 0: No attempt`;
 
     default:
       return 'Standard IELTS band score evaluation (0-9)';
+  }
+}
+
+function getStrictCriteria(examType: string): string {
+  switch (examType) {
+    case 'Reading':
+      return `STRICT READING EVALUATION CRITERIA:
+1. ACCURACY IS EVERYTHING: Score strictly based on percentage of correct answers
+   - 90-100% correct = Band 8-9
+   - 70-89% correct = Band 6-7
+   - 50-69% correct = Band 5
+   - 30-49% correct = Band 3-4
+   - 10-29% correct = Band 2
+   - 0-9% correct = Band 0-1
+
+2. NO PARTIAL CREDIT: Each answer is either fully correct or fully wrong
+3. NO ANSWER = WRONG: Treat "No answer provided" or blank as incorrect
+4. GIBBERISH = WRONG: "testing", "test", "hi", "idk", random letters = incorrect
+5. WRONG LETTER/OPTION = WRONG: No credit for close attempts
+
+Examples of Band 0-2 responses:
+- 0-1 correct answers out of 5 questions (0-20%)
+- Most answers are "testing", "test", "hi", "idk", single letters, or gibberish
+- No genuine attempt to read and comprehend the text
+
+Band 3-4 responses (30-49% correct):
+- 2 correct answers out of 5-6 questions
+- Shows SOME basic comprehension
+- Mix of correct and incorrect, but more wrong than right
+
+Band 5+ responses (50%+ correct):
+- At least half the answers are correct
+- Clear evidence of reading comprehension
+
+CALCULATE THE SCORE MATHEMATICALLY:
+- Count correct answers
+- Divide by total questions
+- Apply the percentage bands above STRICTLY
+
+Be VERY strict: 1 out of 5 correct (20%) = Band 1.5-2.5 maximum.`;
+
+    case 'Writing':
+      return `STRICT WRITING EVALUATION CRITERIA:
+1. WORD COUNT ENFORCEMENT:
+   - Less than 20% of required words = Band 0-1
+   - 20-40% of required words = Band 2-3
+   - 40-60% of required words = Band 3-4
+   - 60-80% of required words = Maximum Band 5-6
+   - 80%+ of required words = Eligible for Band 6+
+
+2. TASK RESPONSE (combined with word count):
+   - Random text, single words, gibberish = Band 0-1
+   - Off-topic but some sentences = Band 2-3
+   - Partially addresses task = Band 4-5
+   - Fully addresses task = Band 6+
+
+3. COHERENCE & COHESION:
+   - No structure or organization = Band 0-2
+   - Very basic structure = Band 3-4
+   - Clear structure = Band 5+
+
+4. VOCABULARY & GRAMMAR:
+   - No proper sentences = Band 0-1
+   - Basic words, many errors = Band 2-3
+   - Limited range, some errors = Band 4-5
+   - Good range, few errors = Band 6+
+
+Examples of Band 0-2 responses:
+- "testing", "test", "hi" (under 10 words)
+- Random characters or gibberish
+- Completely off-topic (under 50 words)
+
+EVALUATE EACH CRITERION and take the LOWEST score as the final band.
+
+Be VERY strict: If word count is under 20%, maximum Band 1.5.`;
+
+    case 'Listening':
+      return `STRICT LISTENING EVALUATION CRITERIA:
+1. ACCURACY IS EVERYTHING: Score strictly based on percentage of correct answers
+   - 90-100% correct = Band 8-9
+   - 70-89% correct = Band 6-7
+   - 50-69% correct = Band 5
+   - 30-49% correct = Band 3-4
+   - 10-29% correct = Band 2
+   - 0-9% correct = Band 0-1
+
+2. NO PARTIAL CREDIT: Each answer is either fully correct or fully wrong
+3. NO ANSWER = WRONG: Blank or "No answer provided" = incorrect
+4. GIBBERISH = WRONG: "testing", "test", "idk", random words = incorrect
+5. SPELLING MATTERS: Answers must be spelled correctly or closely enough
+
+Examples of Band 0-2 responses:
+- 0-1 correct out of 5 (0-20%)
+- All answers are "testing", "idk", random words, or gibberish
+- No evidence of listening comprehension
+
+Band 3-4 responses (30-49% correct):
+- 2 correct out of 5-6 questions
+- SOME evidence of understanding parts of the audio
+
+CALCULATE THE SCORE MATHEMATICALLY:
+- Count correct answers
+- Divide by total questions
+- Apply the percentage bands above STRICTLY
+
+Be VERY strict: 1 out of 5 correct (20%) = Band 1.5-2.5 maximum.`;
+
+    case 'Speaking':
+      return `STRICT SPEAKING EVALUATION CRITERIA:
+1. WORD COUNT & EFFORT:
+   - Under 20 words total across all responses = Band 0-1
+   - 20-40 words with minimal sentences = Band 2-3
+   - 40-80 words with some structure = Band 4-5
+   - 80+ words with good development = Band 6+
+
+2. FLUENCY & COHERENCE:
+   - Single words only = Band 0-1
+   - Very short phrases, no flow = Band 2-3
+   - Basic sentences with hesitation = Band 4-5
+   - Connected speech = Band 6+
+
+3. VOCABULARY & GRAMMAR:
+   - Random words, no sentences = Band 0-1
+   - Very limited vocabulary, basic errors = Band 2-3
+   - Simple vocabulary, some errors = Band 4-5
+   - Good range, fewer errors = Band 6+
+
+Examples of Band 0-2 responses:
+- "testing", "ok", "yes", "hi" (under 20 words total)
+- Gibberish or incomprehensible text
+- No complete sentences
+
+Band 3-4 responses:
+- At least 40-60 words across responses
+- Some complete sentences (even if basic)
+- Basic vocabulary attempts
+
+EVALUATE EACH CRITERION and take the LOWEST score as the final band.
+
+Be VERY strict: Under 20 words total = Band 0-1.5 maximum.`;
+
+    default:
+      return `Be strict: Evaluate genuine attempts vs random/minimal responses. No real attempt = Band 0-2.`;
   }
 }
 

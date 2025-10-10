@@ -1,5 +1,11 @@
 import { openDB, type IDBPDatabase } from 'idb';
-import type { GeneratedTest, Answer, EvaluationResult, TestSession } from '../types/Main';
+import type {
+  GeneratedTest,
+  Answer,
+  EvaluationResult,
+  TestSession,
+  HighScore,
+} from '../types/Main';
 
 const DB_NAME = 'IELTS_Mock_Exam';
 const DB_VERSION = 2;
@@ -182,7 +188,6 @@ export async function getAllSessions(): Promise<TestSession[]> {
 /* ---------------- UTILITY ---------------- */
 export async function clearAllData(): Promise<void> {
   const db = await dbPromise;
-  await db.clear('settings');
   await db.clear('tests');
   await db.clear('answers');
   await db.clear('results');
@@ -209,4 +214,34 @@ export async function clearTestsByDifficulty(difficulty: string): Promise<void> 
       await db.delete('tests', key);
     }
   }
+}
+
+/* ---------------- HIGH SCORES ---------------- */
+
+export async function saveHighScore(examType: string, score: number): Promise<void> {
+  const db = await dbPromise;
+  // Get existing high score //
+  const existingScore = await db.get('results', examType);
+  if (!existingScore || score > existingScore.score) {
+    const highScore: HighScore = {
+      examType,
+      score,
+      date: new Date().toISOString(),
+    };
+    await db.put('results', highScore, examType);
+  }
+}
+
+export async function getHighScore(examType: string): Promise<HighScore | undefined> {
+  const db = await dbPromise;
+  return db.get('results', examType);
+}
+
+export async function clearRecentTestData(examType: string, difficulty: string): Promise<void> {
+  const db = await dbPromise;
+  const key = generateTestKey(examType, difficulty);
+
+  await db.delete('tests', key);
+  await db.delete('answers', key);
+  await db.delete('sessions', key);
 }
