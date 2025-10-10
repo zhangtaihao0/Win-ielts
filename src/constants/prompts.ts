@@ -1,3 +1,5 @@
+import type { Answer, Question } from '../types/Main';
+
 /* ---------------- READING ---------------- */
 export const READING_PROMPT = (difficulty: string): string => `
 You are an IELTS Academic exam generator. Create EXACTLY 5, NOT 3, NOT 4, BUT EXACTLY 5 QUESTIONS. reading comprehension questions.
@@ -232,4 +234,91 @@ export const AI_PROMPTS = {
   WRITING: WRITING_PROMPT,
   LISTENING: LISTENING_PROMPT,
   SPEAKING: SPEAKING_PROMPT,
+} as const;
+
+/* ---------------- EVALUATION PROMPTS ---------------- */
+
+export const EVALUATION_PROMPT = (
+  examType: string,
+  difficulty: string,
+  questions: Question[],
+  answers: Answer[],
+): string => {
+  const questionAnswerPairs = questions.map((q) => {
+    const answer = answers.find((a) => a.questionId === q.id);
+    return {
+      questionId: q.id,
+      question: q,
+      userAnswer: answer?.answer || 'No answer provided',
+    };
+  });
+
+  return `You are an expert IELTS examiner. Evaluate the following ${examType} test responses and provide ONLY a band score from 0 to 9.
+
+CRITICAL: Return ONLY valid JSON with no additional text, explanations, or markdown. No backticks, no code blocks.
+
+EXAM DETAILS:
+- Type: ${examType}
+- Difficulty: ${difficulty}
+- Total Questions: ${questions.length}
+
+SCORING GUIDELINES FOR ${examType.toUpperCase()}:
+${getScoringGuidelines(examType)}
+
+QUESTIONS AND ANSWERS:
+${JSON.stringify(questionAnswerPairs, null, 2)}
+
+Return this EXACT JSON structure with ONLY the score:
+{
+  "score": 7.5
+}
+
+The score must be a number between 0 and 9 (can include .5 decimals like 6.5, 7.0, 8.5).`;
+};
+
+function getScoringGuidelines(examType: string): string {
+  switch (examType) {
+    case 'Reading':
+      return `Band 9: Expert understanding, all answers correct
+Band 8: Very good understanding, 1-2 minor errors
+Band 7: Good understanding, few errors
+Band 6: Competent understanding, some errors
+Band 5: Modest understanding, several errors
+Band 4: Limited understanding, many errors
+Band 0-3: Little to no understanding`;
+
+    case 'Writing':
+      return `Band 9: Excellent writing with sophisticated vocabulary and grammar
+Band 8: Very good writing, minor errors
+Band 7: Good writing, generally well-organized
+Band 6: Adequate writing, some organization issues
+Band 5: Limited writing skills
+Band 4: Basic writing, many errors
+Band 0-3: Very limited writing ability`;
+
+    case 'Listening':
+      return `Band 9: Perfect understanding, all correct
+Band 8: Excellent understanding, 1-2 errors
+Band 7: Good understanding, few errors
+Band 6: Adequate understanding, some errors
+Band 5: Modest understanding, several errors
+Band 4: Limited understanding, many errors
+Band 0-3: Poor understanding`;
+
+    case 'Speaking':
+      return `Band 9: Fully operational command of language
+Band 8: Fully operational with occasional inaccuracies
+Band 7: Good operational command
+Band 6: Generally effective command
+Band 5: Partial command with frequent problems
+Band 4: Very limited command
+Band 0-3: Essentially no ability`;
+
+    default:
+      return 'Standard IELTS band score evaluation (0-9)';
+  }
+}
+
+export const AI_EVALUATION_PROMPTS = {
+  EVALUATE: EVALUATION_PROMPT,
 } as const;

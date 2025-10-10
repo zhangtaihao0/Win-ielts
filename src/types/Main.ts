@@ -112,6 +112,7 @@ export interface QuestionRendererProps {
   showPrevious: boolean;
   isLastQuestion: boolean;
   isListeningType: boolean;
+  handleSubmit: (status?: 'completed' | 'timed-out') => Promise<void>;
 }
 
 export interface ParsedOption {
@@ -126,7 +127,7 @@ export interface WordLimits {
 
 export interface UseAssessmentProps {
   test: GeneratedTest;
-  onSubmit?: (sessionId: string, status: 'completed' | 'timed-out') => void;
+  onSubmit?: (sessionId: string, status: 'completed' | 'timed-out', score: number) => void;
 }
 
 export interface UseGenerateTestProps {
@@ -156,4 +157,10 @@ export interface UseTestTimerReturn {
   pauseTimer: () => void;
   resetTimer: () => void;
   formatTime: (seconds: number) => string;
+}
+
+export interface UseEvaluationReturn {
+  evaluating: boolean;
+  error: string | null;
+  evaluateTest: (test: GeneratedTest, answers: Answer[]) => Promise<number | null>;
 }

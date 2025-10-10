@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const aiModel = genAI.getGenerativeModel({
       model: model || 'gemini-2.0-flash-exp',
       systemInstruction:
-        'You are a precise IELTS exam generator. Always follow the exact structure and number of questions specified in the prompt.',
+        'You are a precise IELTS exam generator and evaluator. Always follow the exact structure specified in the prompt and return valid JSON.',
     });
     const result = await aiModel.generateContent({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -59,7 +59,6 @@ export default async function handler(req, res) {
         error: 'No response from AI model',
       });
     }
-    // Check for safety ratings //
     const safetyRatings = result.response.promptFeedback;
     if (safetyRatings?.blockReason) {
       console.error('Content blocked:', safetyRatings.blockReason);
@@ -96,8 +95,7 @@ export default async function handler(req, res) {
       .replace(/^[^{]*/, '')
       .replace(/[^}]*$/, '')
       .trim();
-
-    // Extract JSON
+    // Extract JSON //
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       responseText = jsonMatch[0];
@@ -114,8 +112,9 @@ export default async function handler(req, res) {
         parseError: parseError.message,
       });
     }
-    // Validate structure //
-    if (!parsedJson.isValid || !parsedJson.examType || !parsedJson.questions) {
+    const isTestGeneration = parsedJson.isValid && parsedJson.examType && parsedJson.questions;
+    const isEvaluation = typeof parsedJson.score === 'number';
+    if (!isTestGeneration && !isEvaluation) {
       console.error('Invalid structure:', parsedJson);
       return res.status(500).json({
         error: 'AI response missing required fields',

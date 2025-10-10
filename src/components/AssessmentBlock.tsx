@@ -9,8 +9,12 @@ import {
   TimeIndicator,
   TimeText,
   TypeInfo,
+  LoadingBlock,
+  LoadingGif,
 } from './AssessmentBlockStyled';
 import QuestionRenderer from './QuestionRenderer';
+// Loader //
+import Loader from '/img/loading.gif';
 
 const AssessmentBlock = () => {
   const location = useLocation();
@@ -25,9 +29,20 @@ const AssessmentBlock = () => {
     handlePrevious,
     handleNext,
     totalQuestions,
+    handleSubmit,
+    isSubmitting,
   } = useAssessment({ test });
   // Filter listing //
   const isListeningType = test.examType === 'Listening';
+
+  // loading //
+  if (isSubmitting) {
+    return (
+      <LoadingBlock>
+        <LoadingGif src={Loader} alt="Loading..." />
+      </LoadingBlock>
+    );
+  }
 
   return (
     <MainAssessmentBlock>
@@ -52,6 +67,7 @@ const AssessmentBlock = () => {
           showPrevious={currentQuestionIndex > 0}
           isLastQuestion={currentQuestionIndex === totalQuestions - 1}
           isListeningType={isListeningType}
+          handleSubmit={handleSubmit}
         />
       </SubContainer>
     </MainAssessmentBlock>

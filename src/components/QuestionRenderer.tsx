@@ -29,6 +29,7 @@ const QuestionRenderer = ({
   showPrevious,
   isLastQuestion,
   isListeningType,
+  handleSubmit,
 }: QuestionRendererProps) => {
   const { questionText, passage, isMultipleChoice, options, countDisplayText } =
     useQuestionRenderer(question, answer);
@@ -74,6 +75,15 @@ const QuestionRenderer = ({
     };
   }, [question]);
 
+  // Handle next/submit button click //
+  const handleNextClick = () => {
+    if (isLastQuestion) {
+      handleSubmit('completed');
+    } else {
+      onNext();
+    }
+  };
+
   return (
     <QuestionContainer>
       {isListeningType ? (
@@ -113,7 +123,7 @@ const QuestionRenderer = ({
             <BtnText>Previous</BtnText>
           </BtnContainer>
         )}
-        <BtnContainer onClick={onNext}>
+        <BtnContainer onClick={handleNextClick}>
           <BtnText>{isLastQuestion ? 'Submit' : 'Next'}</BtnText>
         </BtnContainer>
       </BTNWrapper>

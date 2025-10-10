@@ -1,13 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useTestTimer } from './useTestTimer';
+import { useEvaluation } from './useEvaluation';
 import { saveSession, saveAnswers } from '../utils/db';
 import type { TestSession, Answer, UseAssessmentProps } from '../types/Main';
+import { useNavigate } from 'react-router-dom';
 
 export const useAssessment = ({ test, onSubmit }: UseAssessmentProps) => {
   const [sessionId] = useState(() => uuidv4());
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  // Get evaluation hook //
+  const { evaluating, error: evaluationError, evaluateTest } = useEvaluation();
 
   // Handle time up scenario //
   const handleTimeUp = useCallback(() => {
@@ -37,34 +44,64 @@ export const useAssessment = ({ test, onSubmit }: UseAssessmentProps) => {
     startTimer();
   }, [sessionId, test, startTimer]);
 
-  // Submit test
+  // Submit test //
   const handleSubmit = useCallback(
     async (status: 'completed' | 'timed-out' = 'completed') => {
-      const answersArray: Answer[] = Object.entries(answers).map(([questionId, answer]) => ({
-        questionId,
-        answer,
-        timestamp: Date.now(),
-      }));
-
-      const session: TestSession = {
-        testId: sessionId,
-        examType: test.examType,
-        difficulty: test.difficulty,
-        startTime: Date.now() - ((test.timeLimit ?? 60) * 60 * 1000 - timeRemaining * 1000),
-        endTime: Date.now(),
-        timeLimit: test.timeLimit ?? 60,
-        answers: answersArray,
-        status,
-      };
-
-      await saveSession(sessionId, session);
-      await saveAnswers(sessionId, answersArray);
-
-      if (onSubmit) {
-        onSubmit(sessionId, status);
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+      try {
+        const answersArray: Answer[] = Object.entries(answers).map(([questionId, answer]) => ({
+          questionId,
+          answer,
+          timestamp: Date.now(),
+        }));
+        const session: TestSession = {
+          testId: sessionId,
+          examType: test.examType,
+          difficulty: test.difficulty,
+          startTime: Date.now() - ((test.timeLimit ?? 60) * 60 * 1000 - timeRemaining * 1000),
+          endTime: Date.now(),
+          timeLimit: test.timeLimit ?? 60,
+          answers: answersArray,
+          status,
+        };
+        await saveSession(sessionId, session);
+        await saveAnswers(sessionId, answersArray);
+        // Evaluate the test with AI //
+        const score = await evaluateTest(test, answersArray);
+        if (evaluationError) {
+          console.error('Evaluation error:', evaluationError);
+          alert('There was an error evaluating your test. Please try again.');
+          setIsSubmitting(false);
+          return;
+        }
+        if (onSubmit && score !== null) {
+          onSubmit(sessionId, status, score);
+        }
+        navigate('/results', {
+          state: {
+            score,
+            examType: test.examType,
+          },
+        });
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('There was an error submitting your test. Please try again.');
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [answers, sessionId, test, timeRemaining, onSubmit],
+    [
+      answers,
+      sessionId,
+      test,
+      timeRemaining,
+      onSubmit,
+      isSubmitting,
+      evaluateTest,
+      evaluationError,
+      navigate,
+    ],
   );
 
   // Get current question and answer //
@@ -125,5 +162,7 @@ export const useAssessment = ({ test, onSubmit }: UseAssessmentProps) => {
     handleNext,
     handleSubmit,
     totalQuestions: test.questions.length,
+    isSubmitting: isSubmitting || evaluating,
+    evaluationError,
   };
 };
