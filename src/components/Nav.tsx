@@ -8,7 +8,7 @@ const Nav = () => {
       <NavContent>
         <Logo src={logo} alt="Logo" />
         <DetailsContainer>
-          <NavTextLink href="">GitHub</NavTextLink>
+          <NavTextLink href="https://github.com/JoelDeonDsouza/Win-ielts">GitHub</NavTextLink>
         </DetailsContainer>
       </NavContent>
     </NavContainer>
