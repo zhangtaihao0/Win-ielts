@@ -54,7 +54,7 @@ It provides intelligent practice materials, personalized feedback, and progress 
 Clone the project
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/JoelDeonDsouza/Win-ielts.git
 ```
 
 Go to the project directory
