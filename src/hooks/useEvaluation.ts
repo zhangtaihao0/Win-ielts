@@ -32,12 +32,20 @@ export const useEvaluation = (): UseEvaluationReturn => {
         } else if (cleanedText.startsWith('```')) {
           cleanedText = cleanedText.replace(/^```\s*/, '').replace(/\s*```$/, '');
         }
+        const scoreMatch = cleanedText.match(/"score":\s*(\d+(?:\.\d+)?)/);
+        if (scoreMatch) {
+          const score = parseFloat(scoreMatch[1]);
+          return score;
+        }
         const parsed = JSON.parse(cleanedText);
+        if (Array.isArray(parsed)) {
+          const totalScore = parsed.reduce((sum, item) => sum + (item.score || 0), 0);
+          return totalScore / parsed.length;
+        }
         return parsed.score || 0;
       } catch (err: unknown) {
         const errorMessage = err instanceof Error ? err.message : 'Error evaluating test';
         setError(errorMessage);
-        console.error('Evaluation error:', err);
         return null;
       } finally {
         setEvaluating(false);

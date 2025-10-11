@@ -82,6 +82,7 @@ export const useAssessment = ({ test, onSubmit }: UseAssessmentProps) => {
           state: {
             score,
             examType: test.examType,
+            difficulty: test.difficulty, 
           },
         });
       } catch (error) {

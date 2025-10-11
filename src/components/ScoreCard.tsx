@@ -17,13 +17,25 @@ import { clearRecentTestData, saveHighScore } from '../utils/db';
 const ScoreCard = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, examType, difficulty } = location.state as {
+  const state = location.state as {
     score: number;
     examType: string;
     difficulty: string;
-  };
+  } | null;
 
+  // Redirect if no state is present //
   useEffect(() => {
+    if (!state || state.score === undefined || !state.examType || !state.difficulty) {
+      navigate('/', { replace: true });
+    }
+  }, [state, navigate]);
+
+  // Always call hooks before any return //
+  useEffect(() => {
+    if (!state || state.score === undefined || !state.examType || !state.difficulty) {
+      return;
+    }
+    const { score, examType } = state;
     const checkAndSaveScore = async () => {
       try {
         await saveHighScore(examType, score);
@@ -31,18 +43,22 @@ const ScoreCard = () => {
         console.error('Error saving score:', error);
       }
     };
-
     checkAndSaveScore();
-  }, [score, examType]);
+  }, [state]);
 
-  // Re-try //
+  // Early return if state is invalid //
+  if (!state || state.score === undefined || !state.examType || !state.difficulty) {
+    return null;
+  }
+  const { score, examType, difficulty } = state;
+
+  // Re-try - clears test and navigates home //
   const handleReattempt = async () => {
     try {
       await clearRecentTestData(examType, difficulty);
-      navigate('/');
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Error clearing data:', error);
-      alert('There was an error. Please try again.');
     }
   };
 
