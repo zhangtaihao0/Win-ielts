@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,25 +15,53 @@ export default async function handler(req, res) {
     if (!prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
-    if (!process.env.GOOGLE_API_KEY) {
-      console.error('GOOGLE_API_KEY environment variable is not set');
-      return res.status(500).json({ error: 'Server configuration error' });
-    }
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const aiModel = genAI.getGenerativeModel({
-      model: model || 'gemini-2.0-flash',
-      systemInstruction:
-        'You are a precise IELTS exam generator and evaluator. Always follow the exact structure specified in the prompt and return valid JSON.',
-    });
-    const result = await aiModel.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        maxOutputTokens: 8192,
-        temperature: 0.4,
-        topK: 40,
-        topP: 0.95,
-        responseMimeType: 'application/json',
+    if (!process.env.DEEPSEEK_API_KEY) {
+  console.error('DEEPSEEK_API_KEY environment variable is not set');
+  return res.status(500).json({ error: 'Server configuration error' });
+}
+
+const deepseekResponse = await fetch(
+  'https://api.deepseek.com/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: model || 'deepseek-chat',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a precise IELTS exam generator and evaluator. Always follow the exact structure specified in the prompt and return valid JSON.',
+        },
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      temperature: 0.4,
+      max_tokens: 8192,
+      response_format: {
+        type: 'json_object',
       },
+    }),
+  }
+);
+
+if (!deepseekResponse.ok) {
+  const errorText = await deepseekResponse.text();
+  console.error(errorText);
+
+  return res.status(deepseekResponse.status).json({
+    error: errorText,
+  });
+}
+
+const result = await deepseekResponse.json();
+
+let responseText = result.choices[0].message.content;
       safetySettings: [
         {
           category: 'HARM_CATEGORY_HARASSMENT',
@@ -67,10 +95,7 @@ export default async function handler(req, res) {
         reason: safetyRatings.blockReason,
       });
     }
-    let responseText;
-    try {
-      responseText = result.response.text();
-    } catch (textError) {
+    catch (textError) {
       console.error('Error extracting text:', textError);
       console.error('Response candidates:', JSON.stringify(result.response.candidates, null, 2));
       return res.status(500).json({
@@ -123,7 +148,7 @@ export default async function handler(req, res) {
     }
     return res.json({
       text: responseText,
-      model: model || 'gemini-2.0-flash',
+      model: model || 'deepseek-chat',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
