@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     }
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const aiModel = genAI.getGenerativeModel({
-      model: model || 'gemini-2.0-flash-exp',
+      model: model || 'gemini-2.5-flash',
       systemInstruction:
         'You are a precise IELTS exam generator and evaluator. Always follow the exact structure specified in the prompt and return valid JSON.',
     });
@@ -123,7 +123,7 @@ export default async function handler(req, res) {
     }
     return res.json({
       text: responseText,
-      model: model || 'gemini-2.0-flash-exp',
+      model: model || 'gemini-2.5-flash',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
